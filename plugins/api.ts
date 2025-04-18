@@ -1,4 +1,11 @@
 import { useWebApp } from "vue-tg"
+import { getUserID } from "@/scripts/getUserID"
+
+interface ApiResponse<T = any> {
+    data: T
+    error: string | null
+}
+
 
 export default defineNuxtPlugin((nuxtApp) => {
     const { initDataUnsafe } = useWebApp()
@@ -6,26 +13,30 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     const api = {
         async get<T>(endpoint: string, options: RequestInit = {}) {
-            return fetch(`${config.public.apiUrl}${endpoint}?id=${((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id}`, {
+            return useFetch<ApiResponse<T>>(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`, {
+                ...options,
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                ...options,
+                credentials: 'omit',
+                mode: 'no-cors',
                 method: 'GET',
             })
         },  
 
         async post<T>(endpoint: string, data: any, options: RequestInit = {}) {
-            return fetch(`${config.public.apiUrl}${endpoint}`, {
+            return useFetch<ApiResponse<T>>(`${config.public.apiUrl}${endpoint}`, {
+                ...options,
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                ...options,
+                credentials: 'omit',
+                mode: 'no-cors',
                 body:{
                     ...options.body,
-                    id: ((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id
+                    id: getUserId()
                 },
                 method: 'POST',
             })

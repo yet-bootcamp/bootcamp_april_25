@@ -2,5 +2,6 @@ import { useWebApp } from "vue-tg"
 
 export function getUserID() {
   const { initDataUnsafe } = useWebApp()
-  return ((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id
+//   return ((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id
+    return 1234
 }
