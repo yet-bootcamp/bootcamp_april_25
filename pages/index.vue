@@ -19,7 +19,10 @@
 </template>
 
 <script lang="ts" setup>
+const { $api } = useNuxtApp()
 
+const { data } = await $api.get('/sections').then((res) => res)
+console.log(data)
 </script>
 
 <style>
