@@ -25,7 +25,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             })
         },  
 
-        async post<T>(endpoint: string, data: any, options: RequestInit = {}) {
+        async post<T>(endpoint: string, options: RequestInit = {}) {
+
             return useFetch<ApiResponse<T>>(`${config.public.apiUrl}${endpoint}`, {
                 ...options,
                 headers: {
@@ -34,11 +35,11 @@ export default defineNuxtPlugin((nuxtApp) => {
                 },
                 credentials: 'omit',
                 mode: 'no-cors',
-                body:{
-                    ...options.body,
-                    id: getUserID()
-                },
                 method: 'POST',
+                body: {
+                    ...options.body,
+                    user_id: getUserID()
+                }
             })
         }
     }
