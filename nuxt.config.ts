@@ -9,6 +9,15 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/eslint',
   ],
+  colorMode: {
+    preference: 'dark'
+  },
+  ui: {
+    icons: ['heroicons'],
+    primary: 'green',
+    gray: 'cool',
+    colors: ['primary']
+  },
   css: ['~/assets/css/main.css'],
   plugins: ['~/plugins/api.ts'],
   ssr: false,
