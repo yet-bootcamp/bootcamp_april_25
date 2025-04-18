@@ -21,7 +21,10 @@ onMounted(() => {
 })
 
 const sendMessage = async (message: string) => {
-  const { data } = await $api.post(`/messages/${id.value}`, { body: message })
+  const { data } = await $api.post(`/message`, { body: {
+    message: message,
+    id: id.value
+  } })
   getMessages()
 }
 

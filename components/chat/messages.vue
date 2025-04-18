@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-4 p-4">
-    <ChatMessage v-for="message in mockedMessages" :key="message.id" :message="message" />
+    <ChatMessage v-for="message in messages" :key="message.id" :message="message" />
   </div>
 </template>
 
