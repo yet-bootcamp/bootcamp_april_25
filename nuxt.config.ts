@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
   ],
   css: ['~/assets/css/main.css'],
+  plugins: ['~/plugins/api.ts'],
   ssr: false,
   app: {
     head: {
@@ -18,7 +19,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: 'https://74aa-5-104-75-74.ngrok-free.app/api'
+      apiUrl: 'https://7b78-5-104-75-74.ngrok-free.app/api'
     }
   },
   imports: {

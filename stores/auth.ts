@@ -1,34 +1,55 @@
 import { defineStore } from 'pinia'
-import { useWebApp } from 'vue-tg'
 
-export const useMyAuthStore = defineStore('myAuthStore', () => {
-  const token = ref('')
+export const useMyAuthStore = defineStore({
+  id: 'myAuthStore',
+  state: () => ({
+    token: null as string | null,
+    isAuthenticated: false,
+    user: null as any
+  }),
+  actions: {
+    async login() {
+      const { initDataUnsafe } = useWebApp()
+      const { $api } = useNuxtApp()
+      
+      try {
+        const telegramId = ((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id
+        
+        const { data } = await $api.post('/auth', {
+          body:{
+            
+          }
+        })
 
-  async function login() {
-    const { initDataUnsafe } = useWebApp()
-    console.log(initDataUnsafe)
-    if (!initDataUnsafe) {
-      return
+        if (data.value?.data?.token) {
+          this.token = data.value.data.token
+          this.isAuthenticated = true
+          this.user = data.value.data.user
+          
+          // Store token in localStorage for persistence
+          localStorage.setItem('auth_token', this.token)
+        }
+
+        return data.value
+      } catch (error) {
+        console.error('Login error:', error)
+        return null
+      }
+    },
+
+    logout() {
+      this.token = null
+      this.isAuthenticated = false
+      this.user = null
+      localStorage.removeItem('auth_token')
+    },
+
+    initAuth() {
+      const token = localStorage.getItem('auth_token')
+      if (token) {
+        this.token = token
+        this.isAuthenticated = true
+      }
     }
-
-    const response = await fetch(`${useNuxtApp().$config.public.apiUrl}/auth`, {
-      method: 'POST',
-      body: JSON.stringify(initDataUnsafe.hash)
-    })
-
-    const [error, data] = await useTryCatch(response.json())
-
-    if (error) {
-      console.error(error)
-      return
-    }
-
-    console.log(data)
-    token.value = data
-  }
-
-  return {
-    token,
-    login
   }
 })

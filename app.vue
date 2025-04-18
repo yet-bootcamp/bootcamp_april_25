@@ -8,10 +8,9 @@
 
 <script setup lang="ts">
 
-const { login, token } = useMyAuthStore();
+const {$api} = useNuxtApp()
 
-if (!token.value) {
-  login();
-}
-
+await $api.get('/ping').then((res) => {
+  console.log(`ping ${JSON.stringify(res)}`)
+})
 </script>
