@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/ui',
     'nuxt-icons',
+    '@pinia/nuxt',
     '@nuxt/eslint',
   ],
   css: ['~/assets/css/main.css'],
@@ -17,8 +18,13 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: 'http://localhost:8080/api'
+      apiUrl: 'https://74aa-5-104-75-74.ngrok-free.app/api'
     }
+  },
+  imports: {
+    dirs: [
+      'scripts/**'
+    ]
   },
   vite: {
     server: {
@@ -34,5 +40,8 @@ export default defineNuxtConfig({
         }
       }
     }
-  }
+  },
+   pinia: {
+    storesDirs: ['./stores/**'],
+  },
 })

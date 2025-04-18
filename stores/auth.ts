@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
-import nuxtConfig from '~/nuxt.config';
+import { useWebApp } from 'vue-tg'
 
 export const useMyAuthStore = defineStore('myAuthStore', () => {
   const token = ref('')
 
   async function login() {
     const { initDataUnsafe } = useWebApp()
+    console.log(initDataUnsafe)
     if (!initDataUnsafe) {
       return
     }
@@ -14,7 +15,14 @@ export const useMyAuthStore = defineStore('myAuthStore', () => {
       method: 'POST',
       body: JSON.stringify(initDataUnsafe.hash)
     })
-    const data = await response.json()
+
+    const [error, data] = await useTryCatch(response.json())
+
+    if (error) {
+      console.error(error)
+      return
+    }
+
     console.log(data)
     token.value = data
   }
