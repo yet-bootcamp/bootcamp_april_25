@@ -10,16 +10,20 @@ export default defineNuxtPlugin((nuxtApp) => {
     const config = useRuntimeConfig()
 
     const api = {
-        async get<T>(endpoint: string, options: any = {}) {
+        async get<T>(endpoint: string, options: RequestInit = {}) {
             return useFetch<ApiResponse<T>>(`${config.public.apiUrl}/api${endpoint}?id=${((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id}`, {
                 ...options,
                 method: 'GET',
             })
         },  
 
-        async post<T>(endpoint: string, data: any, options: any = {}) {
+        async post<T>(endpoint: string, data: any, options: RequestInit = {}) {
             return useFetch<ApiResponse<T>>(`${config.public.apiUrl}/api${endpoint}?id=${((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id}`, {
                 ...options,
+                body:{
+                    ...options.body,
+                    id: ((initDataUnsafe || {user: {id: ''}}).user || {id: ''}).id
+                },
                 method: 'POST',
             })
         }
