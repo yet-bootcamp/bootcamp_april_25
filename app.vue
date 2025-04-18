@@ -11,9 +11,11 @@
 const {$api} = useNuxtApp()
 
 await $api.get('/ping').then((res) => {
-  console.log(`ping ${JSON.stringify(res)}`)
+  console.log(res)
 })
 
-const { data } = await $api.post('/auth').then((res) => res)
+const { data } = await $api.post('/auth', {
+  body: getUserID()
+}).then((res) => res)
 console.log(data)
 </script>
