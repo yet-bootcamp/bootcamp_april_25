@@ -36,7 +36,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                 mode: 'no-cors',
                 body:{
                     ...options.body,
-                    id: getUserId()
+                    id: getUserID()
                 },
                 method: 'POST',
             })

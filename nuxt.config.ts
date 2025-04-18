@@ -19,26 +19,20 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: 'https://7b78-5-104-75-74.ngrok-free.app/api'
+      apiUrl: 'https://f9ec-5-104-75-74.ngrok-free.app/api'
     }
   },
   imports: {
     dirs: [
       'scripts/**'
     ]
+  
   },
   vite: {
     server: {
-      https: {
-        key: './ssl/localhost.key',
-        cert: './ssl/localhost.crt'
-      },
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-          secure: false
-        }
+      allowedHosts: ['*', 'c0e0-83-147-192-231.ngrok-free.app'],
+      hmr: {
+        host: '0.0.0.0'
       }
     }
   },

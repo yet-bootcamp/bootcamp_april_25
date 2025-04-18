@@ -11,9 +11,9 @@ const { $api } = useNuxtApp()
 const id = computed(() => useRoute().params.id)
 
 const getMessages = async () => {
-  const { data } = await $api.get(`/messages/${id.value}`)
+  const data = await fetch(`${useRuntimeConfig().public.apiUrl}/messages/${id.value}`).then((res) => res)
   console.log(data)
-  messages.value = JSON.parse( data )
+  messages.value = data
 }
 
 onMounted(() => {
