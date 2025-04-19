@@ -85,7 +85,7 @@ const mockedMessages = [
   ]
 ]
 const getMessages = async () => {
-  messages.value = mockedMessages[id.value]
+  messages.value = mockedMessages[id.value - 1]
   // const [error, data] = await useTryCatch(
   //   $api
   //   .get(`/messages/${id.value}`)
