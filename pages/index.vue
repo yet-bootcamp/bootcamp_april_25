@@ -17,6 +17,7 @@
       <UProgress color="success" :max="1000" v-model="valueKnowledge"></UProgress>
       <p>Мотивация</p>
       <UProgress color="warning" :max="1000" v-model="valueMotivation"></UProgress>
+      <iframe src="https://d51c-5-104-75-74.ngrok-free.app" frameborder="0"></iframe>
     </div>
   </main>
 </template>
@@ -26,7 +27,7 @@ const { $api } = useNuxtApp()
 const valueKnowledge = ref(0)
 const valueMotivation = ref(0)
 onMounted(async () => { 
-  const [error, data] = await useTryCatch(await $api.get('/sections').then((res) => res.text()))
+  const [error, data] = await useTryCatch($api.get('/sections').then((res) => res.text()))
   if(data) {
     console.log(data)
   }else{

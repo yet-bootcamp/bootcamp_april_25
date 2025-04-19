@@ -1,5 +1,6 @@
 import { useWebApp } from "vue-tg"
 import { getUserID } from "@/scripts/getUserID"
+import axios from "axios"
 
 interface ApiResponse<T = any> {
     data: T
@@ -12,38 +13,16 @@ interface ApiResponse<T = any> {
      const config = useRuntimeConfig()
 
     const api = {
-        async get<T>(endpoint: string, options: RequestInit = {}) {
-            return fetch(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`, {
-                ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                method: 'GET',
-            })
-        },  
+        async get<T>(endpoint: string, options: any = {}) {
+            return axios.get<T>(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`)
+        },
 
         async post<T>(endpoint: string, body: any) {
-
-            return fetch(`${config.public.apiUrl}${endpoint}`, {
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                method: 'POST',
-            })
+            return axios.post<T>(`${config.public.apiUrl}${endpoint}`, body)
         },
 
         async patch<T>(endpoint: string, body: any) {
-            return fetch(`${config.public.apiUrl}${endpoint}`, {
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                method: 'PATCH',
-            })
+            return axios.patch<T>(`${config.public.apiUrl}${endpoint}`, body)
         }
     }
 
