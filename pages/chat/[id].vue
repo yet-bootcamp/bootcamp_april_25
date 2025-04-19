@@ -11,7 +11,9 @@ const { $api } = useNuxtApp()
 const id = computed(() => Number.parseInt(useRoute().params.id as string) || 0)
 
 const getMessages = async () => {
-  const data = await fetch(`${useRuntimeConfig().public.apiUrl}/messages/${id.value}`).then((res) => res)
+  const data = await $api
+    .get(`/messages/${id.value}`)
+    .then((res) => res);
   console.log(JSON.parse(JSON.stringify(data)))
   messages.value = JSON.parse(JSON.stringify(data))
 }
@@ -21,10 +23,11 @@ onMounted(() => {
 })
 
 const sendMessage = async (message: string) => {
-  const { data } = await $api.post(`/message`, { body: {
+  await $api.post(`/message`,({
+    id: getUserID(),
     message: [message],
     neuro_id: id.value
-  } })
+  })).then((res) => res.json())
   getMessages()
 }
 

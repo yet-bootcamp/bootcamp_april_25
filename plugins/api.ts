@@ -13,33 +13,23 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     const api = {
         async get<T>(endpoint: string, options: RequestInit = {}) {
-            return useFetch<ApiResponse<T>>(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`, {
+            return fetch(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                 },
-                credentials: 'omit',
-                mode: 'no-cors',
                 method: 'GET',
             })
         },  
 
-        async post<T>(endpoint: string, options: RequestInit = {}) {
+        async post<T>(endpoint: string, body: any) {
 
-            return useFetch<ApiResponse<T>>(`${config.public.apiUrl}${endpoint}`, {
-                ...options,
+            return fetch(`${config.public.apiUrl}${endpoint}`, {
+                body: JSON.stringify(body),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                 },
-                credentials: 'omit',
-                mode: 'no-cors',
                 method: 'POST',
-                body: {
-                    ...options.body,
-                    user_id: getUserID()
-                }
             })
         }
     }
