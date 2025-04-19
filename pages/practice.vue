@@ -8,19 +8,19 @@ const mockedPractise = [
         id: 0,
         title: 'Dev-Практика',
         description: 'Практика для тьюторов в сфере разработки',
-        link: '/practise/1'
+        link: '/chat/1'
     },
     {
         id: 1,
         title: 'Бизнес-Практика',
         description: 'Практика для тьюторов в сфере бизнеса',
-        link: '/practise/2'
+        link: '/chat/2'
     },
     {
         id: 2,
         title: 'ML-Практика',
         description: 'Практика для тьюторов в сфере машинного обучения',
-        link: '/practise/3'
+        link: '/chat/3'
     },
 ]
 </script>
