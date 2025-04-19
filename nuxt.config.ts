@@ -13,10 +13,11 @@ export default defineNuxtConfig({
     preference: 'dark'
   },
   ui: {
+    global: true,
     icons: ['heroicons'],
-    primary: 'green',
-    gray: 'cool',
-    colors: ['primary']
+    primary: 'gray',
+    gray: 'zinc',
+    safelistColors: ['primary', 'gray']
   },
   css: ['~/assets/css/main.css'],
   plugins: ['~/plugins/api.ts'],
@@ -35,7 +36,6 @@ export default defineNuxtConfig({
     dirs: [
       'scripts/**'
     ]
-  
   },
   vite: {
     server: {
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
       }
     }
   },
-   pinia: {
+  pinia: {
     storesDirs: ['./stores/**'],
   },
 })

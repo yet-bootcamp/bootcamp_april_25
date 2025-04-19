@@ -1,45 +1,63 @@
 <template>
-  <div>
+  <div class="register-container">
     <welcome />
-    <form class="form-container" @submit.prevent="register">
-      <div class="form-group">
-        <label for="name">Имя</label>
-        <input 
-          id="name"
-          v-model="state.name"
-          type="text"
-          placeholder="Укажите ваше имя"
-          :class="{ 'error': errors.name }"
-        />
-        <span v-if="errors.name" class="error-text">{{ errors.name }}</span>
-      </div>
+    <UForm :state="state" :schema="currentSchema" @submit="handleSubmit" class="form-wrapper">
+      <div class="flex flex-col gap-4">
+        <h2 class="step-title">Шаг {{ currentStep }}: Личные данные</h2>
 
-      <div class="form-group">
-        <label for="experience">Опыт</label>
-        <input
-          id="experience"
-          v-model="state.experience"
-          type="number"
-          placeholder="Укажите количество лет"
-          :class="{ 'error': errors.experience }"
-        />
-        <span v-if="errors.experience" class="error-text">{{ errors.experience }}</span>
-      </div>
+        <!-- Шаг 1: Имя -->
+        <Transition name="fade">
+          <UFormGroup v-if="currentStep >= 1" label="Имя">
+            <UInput
+            class="w-full"
+            size="xl"
+              v-model="state.name"
+              placeholder="Укажите ваше имя"
+              :disabled="currentStep !== 1"
+            />
+          </UFormGroup>
+        </Transition>
 
-      <div class="form-group">
-        <label for="workplace">Место работы</label>
-        <input
-          id="workplace"
-          v-model="state.workplace"
-          type="text"
-          placeholder="Укажите ваше место работы"
-          :class="{ 'error': errors.workplace }"
-        />
-        <span v-if="errors.workplace" class="error-text">{{ errors.workplace }}</span>
-      </div>
+        <Transition name="fade">
+          <UFormGroup v-if="currentStep >= 2" label="Опыт">
+            <UInput
+              class="w-full"
+              size="xl"
+              v-model="state.experience"
+              type="number"
+              placeholder="Укажите количество лет"
+              :disabled="currentStep !== 2"
+            />
+          </UFormGroup>
+        </Transition>
 
-      <button type="submit">Продолжить</button>
-    </form>
+        <!-- Шаг 3: Место работы -->
+        <Transition name="fade">
+          <UFormGroup v-if="currentStep >= 3" label="Место работы">
+            <UInput
+              class="w-full"
+              size="xl"
+              v-model="state.workplace"
+              placeholder="Укажите ваше место работы"
+              :disabled="currentStep !== 3"
+            />
+          </UFormGroup>
+        </Transition>
+
+        <!-- Прогресс и кнопка -->
+        <div class="progress-container flex flex-col justify-center items-center">
+          <UButton type="submit" :disabled="isLoading" class="submit-button flex justify-center w-[80%] mb-4 ">
+            {{ currentStep === 3 ? 'Завершить' : 'Далее' }}
+          </UButton>
+          <UProgress
+            size="lg"
+            v-model="value"
+            color="primary"
+            :max="3"
+          />
+        </div>
+      </div>
+    </UForm>
   </div>
 </template>
 
@@ -47,55 +65,100 @@
 import { z } from 'zod';
 import welcome from '~/components/welcome.vue';
 
-const schema = z.object({
-  name: z.string().min(1, "Имя должно быть указано"),
-  experience: z.number().min(1, "Опыт должен быть больше одного года"),
-  workplace: z.string().min(1, "Место работы должно быть указано"),
-});
+const value = ref(1)
+const currentStep = ref(1);
+const isLoading = ref(false);
 
 const state = ref({
   name: '',
-  experience: 0,
+  experience: '',
   workplace: '',
 });
 
-const errors = ref({
-  name: '',
-  experience: '',
-  workplace: ''
-});
+// Схемы валидации для каждого шага
+const schemas = {
+  1: z.object({
+    name: z.string().min(1, "Имя должно быть указано"),
+  }),
+  2: z.object({
+    experience: z.string().min(1, "Опыт должен быть указан"),
+  }),
+  3: z.object({
+    workplace: z.string().min(1, "Место работы должно быть указано"),
+  }),
+};
 
-const register = () => {
-  // Сброс ошибок
-  errors.value = {
-    name: '',
-    experience: '',
-    workplace: ''
-  };
+const currentSchema = computed(() => schemas[currentStep.value as keyof typeof schemas]);
 
+const handleSubmit = async () => {
   try {
-    schema.parse(state.value);
-    console.log(state.value);
+    isLoading.value = true;
+    
+    currentSchema.value.parse({
+      name: state.value.name,
+      experience: state.value.experience,
+      workplace: state.value.workplace,
+    });
+
+    if (currentStep.value < 3) {
+      currentStep.value++;
+      value.value++;
+    } else {
+      console.log('Отправка данных:', state.value);
+    }
   } catch (err) {
     if (err instanceof z.ZodError) {
-      err.errors.forEach((error) => {
-        if (error.path[0]) {
-          errors.value[error.path[0] as keyof typeof errors.value] = error.message;
-        }
-      });
+      console.error(err.errors);
     }
+  } finally {
+    isLoading.value = false;
   }
-}
+};
 </script>
 
 <style scoped>
-.error {
-  border-color: #ef4444 !important;
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ui-bg);
 }
 
-.error-text {
-  color: #ef4444;
-  font-size: 14px;
-  margin-top: 4px;
+.form-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.step-title {
+  color: var(--ui-text);
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.progress-container {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.submit-button {
+  width: 80%;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
