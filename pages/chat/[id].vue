@@ -134,8 +134,8 @@ const router = useRouter()
     <ChatMessages :messages="messages" class="mb-24" />
     <EffectProgressiveBlur direction="bottom" :blur="10" :layers="10" class="fixed z-10 bottom-0 left-0 right-0 h-32" />
     <UForm :schema="schema" :state="state" class="flex gap-2 flex-col z-20 fixed bottom-0 left-0 right-0 p-4" @submit.prevent="sendMessage(state.message)">
-      <UInput v-model="state.message" placeholder="Сообщение" />
-      <UButton type="submit">
+      <UInput v-model="state.message" placeholder="Сообщение"  size="xl"/>
+      <UButton type="submit" size="xl">
         Отправить
       </UButton>
     </UForm>

@@ -1,52 +1,49 @@
 <template>
   <div class="register-container">
     <welcome />
-    <UForm :state="state" :schema="currentSchema" @submit="handleSubmit" class="form-wrapper">
+    <UForm :state="state" :schema="schema" @submit="handleSubmit" class="form-wrapper">
       <div class="flex flex-col gap-4">
         <h2 class="step-title">Шаг {{ currentStep }}: Личные данные</h2>
 
         <!-- Шаг 1: Имя -->
         <Transition name="fade">
-          <UFormGroup v-if="currentStep >= 1" label="Имя">
+          <UFormGroup v-if="currentStep >= 1" name="name" label="Имя">
             <UInput
             class="w-full"
             size="xl"
               v-model="state.name"
               placeholder="Укажите ваше имя"
-              :disabled="currentStep !== 1"
             />
           </UFormGroup>
         </Transition>
 
         <Transition name="fade">
-          <UFormGroup v-if="currentStep >= 2" label="Опыт">
+          <UFormGroup v-if="currentStep >= 2" name="experience" label="Опыт">
             <UInput
               class="w-full"
               size="xl"
               v-model="state.experience"
               type="number"
               placeholder="Укажите количество лет"
-              :disabled="currentStep !== 2"
             />
           </UFormGroup>
         </Transition>
 
         <!-- Шаг 3: Место работы -->
         <Transition name="fade">
-          <UFormGroup v-if="currentStep >= 3" label="Место работы">
+          <UFormGroup v-if="currentStep >= 3" name="workplace" label="Место работы">
             <UInput
               class="w-full"
               size="xl"
               v-model="state.workplace"
               placeholder="Укажите ваше место работы"
-              :disabled="currentStep !== 3"
             />
           </UFormGroup>
         </Transition>
 
         <!-- Прогресс и кнопка -->
         <div class="progress-container flex flex-col justify-center items-center">
-          <UButton type="submit" :disabled="isLoading" class="submit-button flex justify-center w-[80%] mb-4 ">
+          <UButton type="submit" @click.prevent="handleClick" :disabled="isLoading" class="submit-button flex justify-center w-[80%] mb-4 ">
             {{ currentStep === 3 ? 'Завершить' : 'Далее' }}
           </UButton>
           <UProgress
@@ -76,44 +73,58 @@ const state = ref({
 });
 
 // Схемы валидации для каждого шага
-const schemas = {
-  1: z.object({
+const schema = z.object({
     name: z.string().min(1, "Имя должно быть указано"),
-  }),
-  2: z.object({
-    experience: z.string().min(1, "Опыт должен быть указан"),
-  }),
-  3: z.object({
+    experience: z.number().min(1, "Опыт должен быть указан"),
     workplace: z.string().min(1, "Место работы должно быть указано"),
-  }),
-};
-
-const currentSchema = computed(() => schemas[currentStep.value as keyof typeof schemas]);
+});
 
 const handleSubmit = async () => {
-  try {
-    isLoading.value = true;
+
+  // try {
+  //   isLoading.value = true;
     
-    currentSchema.value.parse({
+  //   currentSchema.value.parse({
+  //     name: state.value.name,
+  //     experience: state.value.experience,
+  //     workplace: state.value.workplace,
+  //   });
+
+  //   if (currentStep.value < 3) {
+  //     currentStep.value++;
+  //     value.value++;
+  //   } else {
+  //     console.log('Отправка данных:', state.value);
+  //   }
+  // } catch (err) {
+  //   if (err instanceof z.ZodError) {
+  //     console.error(err.errors);
+  //   }
+  // } finally {
+  //   isLoading.value = false;
+  // }
+  console.log("Hadndle Submit")
+  navigateTo('/')
+};
+
+const handleClick = async () => {
+  if (currentStep.value < 3) {
+    currentStep.value++;
+    value.value++;
+  } else {
+    const [error, data] = await useTryCatch((async () => schema.parse({
       name: state.value.name,
       experience: state.value.experience,
       workplace: state.value.workplace,
-    });
-
-    if (currentStep.value < 3) {
-      currentStep.value++;
-      value.value++;
-    } else {
-      console.log('Отправка данных:', state.value);
+    }))());
+    if (error) {
+      console.error(error);
+      return
     }
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      console.error(err.errors);
-    }
-  } finally {
-    isLoading.value = false;
+    console.log(data);
+    navigateTo('/')
   }
-};
+}
 </script>
 
 <style scoped>
