@@ -5,7 +5,9 @@
   --color-green: #02E570;
   --color-orange: #FFA171;
   --color-gray: #383838;
+  --color-gray-lighter: #535353;
   --color-green-darker: #36A26B;
+  --color-primary: #E6E6E6; 
 }
 
 :root {

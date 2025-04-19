@@ -144,11 +144,14 @@ const handleSpeechResult = (result: string) => {
     <UForm :schema="schema" :state="state" class="flex gap-2 flex-col z-20 fixed bottom-0 left-1/2 -translate-x-1/2 max-w-2xl w-full p-4" @submit.prevent="sendMessage(state.message)">
       <div class="flex gap-2">
         <UInput v-model="state.message" placeholder="Сообщение"  size="xl" class="w-full"/>
-        <ChatSpeech class="aspect-square size-4 min-h-4 max-h-4 min-w-4 max-w-4" @result="handleSpeechResult" />
+        <ChatSpeech class="aspect-square" @result="handleSpeechResult" />
+        <UButton type="submit" v-if="state.message" class="flex justify-center rounded-full h-12 w-12" size="xl">
+          <UIcon name="material-symbols:send-rounded"></UIcon>
+        </UButton>
+        <UButton type="submit" v-if="!state.message" class="flex bg-gray-lighter justify-center rounded-full h-12 w-12" size="xl">
+          <UIcon name="material-symbols:send-rounded bg-primary"></UIcon>
+        </UButton>
       </div>
-      <UButton type="submit" size="xl">
-        Отправить
-      </UButton>
     </UForm>
   </div>
 </template>
