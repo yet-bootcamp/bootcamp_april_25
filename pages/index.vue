@@ -1,19 +1,6 @@
 <template>
   <main class="max-w-md flex flex-col mx-auto">
-    <header class="flex items-center gap-4 mb-4 justify-between">
-      <div class="flex items-center">
-        <img src="/assets/img/logo.png" width="59" height="34">
-        <h2 class="font-bold text-2xl">Koala</h2>
-      </div>
-      <div class="flex flex-row gap-5 items-center">
-        <div class="flex items-center">
-          <img src="/assets/img/fire.gif" width="40" height="40"/>
-          <p class="font-semibold">5 дней</p>
-        </div>
-        <UAvatar src="https://github.com/benjamincanac.png" />
-      </div>
-    </header>
-    <div class="bg-[#2E2E2E80] p-6 rounded-3xl border-1 border-gray">
+    <div class="bg-[#2E2E2E80] p-6 rounded-3xl border-1 border-gray mb-8">
       <div class="flex flex-row justify-between">
         <h3 class="text-lg font-bold mb-2">Моя коала</h3>
         <UIcon name="material-symbols:info-outline-rounded size-6 text-[#A6A6A6]"></UIcon>
@@ -28,20 +15,32 @@
       </div>
     </div>
 
-    <div class="background-[url(/assets/img/rectangleGreen.png)]">
-      <img src="/assets/img/koalaStudent.png" width="91" height="86">
-      <p class="text-lg font-bold">Практика</p>
+    
+    <div class="flex gap-8 justify-between">
+      <NuxtLink to="/practice" class="flex flex-col justify-center items-center aspect-square w-full max-w-[48%] overflow-hidden  rounded-3xl bg-cover bg-[url(~/assets/img/rectangleGreen.png)] bg-no-repeat">
+        <img src="/assets/img/koalaStudent.png" class="h-auto w-2/4">
+        <p class="text-lg font-bold">Практика</p>
+      </NuxtLink>
+      <NuxtLink to="/theory" class="flex flex-col justify-center items-center aspect-square w-full max-w-[48%] overflow-hidden  rounded-3xl bg-cover bg-[url(~/assets/img/rectangleBlue.png)] bg-no-repeat">
+        <img src="/assets/img/koalaRead.png" class="h-auto w-2/4">
+        <p class="text-lg font-bold">Теория</p>
+      </NuxtLink>
     </div>
   </main>
 </template>
 
 <script lang="ts" setup>
-let valueKnowledge = ref(600)
-let valueMotivation = ref(900)
-// const { $api } = useNuxtApp()
-
-// const { data } = await $api.get('/sections').then((res) => res)
-// console.log(data)
+const { $api } = useNuxtApp()
+const valueKnowledge = ref(600)
+const valueMotivation = ref(900)
+onMounted(async () => { 
+  const [error, data] = await useTryCatch($api.get('/sections').then((res) => res.text()))
+  if(data) {
+    console.log(data)
+  }else{
+    console.error(error)
+  }
+})
 </script>
 
 <style>
