@@ -18,8 +18,6 @@ function sample<T>(arr: T[], size: number) {
   return shuffled.slice(0, size)
 }
 
-const colors = ['aqua', 'azure', 'beige', 'bisque', 'black', 'blue', 'brown', 'chocolate', 'coral', 'crimson', 'cyan', 'fuchsia', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'green', 'indigo', 'ivory', 'khaki', 'lavender', 'lime', 'linen', 'magenta', 'maroon', 'moccasin', 'navy', 'olive', 'orange', 'orchid', 'peru', 'pink', 'plum', 'purple', 'red', 'salmon', 'sienna', 'silver', 'snow', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'white', 'yellow', 'transparent']
-
 const speech = useSpeechRecognition({
   lang,
   continuous: true,
@@ -48,7 +46,6 @@ watch(isListening, isListening => isListening ? null : selectedLanguage.value = 
       </button>
         <p
           class="tag"
-          :style="selectedLanguage === 'ru-RU' ? { background: color } : {}"
         >
           {{ result }}
         </p>
