@@ -30,27 +30,25 @@ function start() {
 
 const { isListening, isSupported, stop, result } = speech
 
+const emit = defineEmits(['result'])
+
+watch(result, result => {
+  emit('result', result)
+})
+
 const selectedLanguage = shallowRef(lang.value)
 watch(lang, lang => isListening.value ? null : selectedLanguage.value = lang)
 watch(isListening, isListening => isListening ? null : selectedLanguage.value = lang.value)
 </script>
 
 <template>
-  <div>
-    <div>
-      <button v-if="!isListening" @click="start" class="flex items-center justify-center w-[100px] h-[100px] bg-gray rounded-full">
+      <button v-if="!isListening" @click="start" class="flex items-center justify-center aspect-square bg-gray rounded-full">
           <UIcon name="mdi:microphone-off" class="w-full h-1/3"></UIcon>
         </button>
-        <button v-if="isListening" class="flex items-center justify-center w-[100px] h-[100px] bg-green-darker rounded-full" @click="stop">
+        <button v-if="isListening" class="flex items-center justify-center aspect-square bg-green-darker rounded-full" @click="stop">
           <UIcon name="mdi:microphone-outline" class="w-full h-1/3"></UIcon>
       </button>
-        <p
-          class="tag"
-        >
-          {{ result }}
-        </p>
-    </div>
-  </div>
+        
 </template>
 
 <!-- <style scoped>

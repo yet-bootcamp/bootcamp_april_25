@@ -122,7 +122,11 @@ const schema = z.object({
 const state = ref({
   message: '',
 })
-const router = useRouter()
+  const router = useRouter()
+
+const handleSpeechResult = (result: string) => {
+  state.value.message = result
+}
 </script>
 
 <template>
@@ -134,9 +138,9 @@ const router = useRouter()
     <ChatMessages :messages="messages" class="mb-24" />
     <EffectProgressiveBlur direction="bottom" :blur="10" :layers="10" class="fixed z-10 bottom-0 left-0 right-0 h-32" />
     <UForm :schema="schema" :state="state" class="flex gap-2 flex-col z-20 fixed bottom-0 left-0 right-0 p-4" @submit.prevent="sendMessage(state.message)">
-      <div>
-        <UInput v-model="state.message" placeholder="Сообщение"  size="xl"/>
-        <ChatSpeech />
+      <div class="flex gap-2">
+        <UInput v-model="state.message" placeholder="Сообщение"  size="xl" class="w-full"/>
+        <ChatSpeech class="aspect-square size-4" @result="handleSpeechResult" />
       </div>
       <UButton type="submit" size="xl">
         Отправить
