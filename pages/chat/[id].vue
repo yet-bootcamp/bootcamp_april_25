@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { useWebApp, BackButton } from 'vue-tg';
 import type { Message } from '@/types/types';
+import { da } from '@nuxt/ui/runtime/locale/index.js';
 const { initDataUnsafe } = useWebApp();
 
 const messages = ref<Message[]>([])
@@ -11,11 +12,17 @@ const { $api } = useNuxtApp()
 const id = computed(() => Number.parseInt(useRoute().params.id as string) || 0)
 
 const getMessages = async () => {
-  const data = await $api
+  const [error, data] = await useTryCatch(
+    $api
     .get(`/messages/${id.value}`)
-    .then((res) => res);
-  console.log(JSON.parse(JSON.stringify(data)))
-  messages.value = JSON.parse(JSON.stringify(data))
+    .then((res) => res.body)
+  );
+  if(data) {
+    console.log(data)
+    messages.value = JSON.parse(JSON.stringify(data))
+  } else {
+    console.error(error)
+  }
 }
 
 onMounted(() => {
@@ -23,12 +30,19 @@ onMounted(() => {
 })
 
 const sendMessage = async (message: string) => {
-  await $api.post(`/message`,({
-    id: getUserID(),
-    message: [message],
-    neuro_id: id.value
-  })).then((res) => res.json())
-  getMessages()
+  const [error, data] = await useTryCatch(
+    $api.post(`/message`,({
+      id: getUserID(),
+      message: [message],
+      neuro_id: id.value
+    })).then((res) => res.json())
+  )
+  if(data) {
+    console.log(data)
+    getMessages()
+  } else {
+    console.error(error)
+  }
 }
 
 const schema = z.object({

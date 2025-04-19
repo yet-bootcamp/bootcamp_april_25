@@ -20,9 +20,14 @@
 
 <script lang="ts" setup>
 const { $api } = useNuxtApp()
-
-const { data } = await $api.get('/sections').then((res) => res)
-console.log(data)
+onMounted(async () => { 
+  const [error, data] = await useTryCatch(await $api.get('/sections').then((res) => res.text()))
+  if(data) {
+    console.log(data)
+  }else{
+    console.error(error)
+  }
+})
 </script>
 
 <style>

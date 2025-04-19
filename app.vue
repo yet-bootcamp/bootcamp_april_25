@@ -10,12 +10,19 @@
 
 const {$api} = useNuxtApp()
 
-await $api.get('/ping').then((res) => {
-  console.log(res)
-})
+const [errorPing, dataPing] = await useTryCatch($api.get('/ping').then((res) => res))
+if(dataPing) {
+  console.log(dataPing)
+}else{
+  console.error(errorPing)
+}
 
-const { data } = await $api.post('/auth', {
+const [error, data] = await useTryCatch($api.post('/auth', {
   body: getUserID()
-}).then((res) => res)
-console.log(data)
+}).then((res) => res))
+if(data) {
+  console.log(data)
+}else{
+  console.error(error)
+}
 </script>

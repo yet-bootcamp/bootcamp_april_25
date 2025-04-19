@@ -17,6 +17,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
                 },
                 method: 'GET',
             })
@@ -28,8 +29,20 @@ export default defineNuxtPlugin((nuxtApp) => {
                 body: JSON.stringify(body),
                 headers: {
                     'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
                 },
                 method: 'POST',
+            })
+        },
+
+        async patch<T>(endpoint: string, body: any) {
+            return fetch(`${config.public.apiUrl}${endpoint}`, {
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'PATCH',
             })
         }
     }

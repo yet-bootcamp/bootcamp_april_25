@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: 'https://f9ec-5-104-75-74.ngrok-free.app/api'
+      apiUrl: 'https://4d11-5-104-75-74.ngrok-free.app/api'
     }
   },
   imports: {
