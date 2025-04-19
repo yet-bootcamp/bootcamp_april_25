@@ -1,6 +1,5 @@
 <template>
   <main class="max-w-md flex flex-col">
-    
     <div class="bg-[#2E2E2E80] p-4 rounded-md">
       <h3>Ваша коала</h3>
       <p class="flex justify-between color-ui-success"><span>Знания</span> <span>600xp</span></p>
