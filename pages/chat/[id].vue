@@ -13,6 +13,7 @@ const id = computed(() => Number.parseInt(useRoute().params.id as string) || 0)
 
 const mockedMessages = [
   [
+    { id: 0, text: "Start", aiResponse: false },
     { id: 1, text: "Здравствуйте! Я хотел бы обсудить современные подходы в веб-разработке.", aiResponse: true },
     { id: 2, text: "Конечно! Давайте начнем с основ. Что вы знаете о современных фреймворках?", aiResponse: false },
     { id: 3, text: "Я знаком с React и Vue, но хотел бы лучше понять их различия.", aiResponse: true },
@@ -35,6 +36,8 @@ const mockedMessages = [
     { id: 20, text: "Участвуйте в командных проектах и посещайте митапы...", aiResponse: false }
   ],
   [
+  { id: 0, text: "Start", aiResponse: false },
+
     { id: 1, text: "Здравствуйте! Интересуюсь основами бизнес-планирования.", aiResponse: true },
     { id: 2, text: "Отлично! С чего бы вы хотели начать?", aiResponse: false },
     { id: 3, text: "Как правильно провести анализ рынка?", aiResponse: true },
@@ -57,6 +60,8 @@ const mockedMessages = [
     { id: 20, text: "Практика, обучение и общение с опытными предпринимателями...", aiResponse: false }
   ],
   [
+  { id: 0, text: "Start", aiResponse: false },
+
     { id: 1, text: "Здравствуйте! Хочу узнать больше о машинном обучении.", aiResponse: true },
     { id: 2, text: "Отлично! Какие области ML вас интересуют?", aiResponse: false },
     { id: 3, text: "Особенно интересует компьютерное зрение.", aiResponse: true },
@@ -79,7 +84,6 @@ const mockedMessages = [
     { id: 20, text: "Попробуйте настроить гиперпараметры и архитектуру сети...", aiResponse: false }
   ]
 ]
-
 const getMessages = async () => {
   messages.value = mockedMessages[id.value]
   // const [error, data] = await useTryCatch(
