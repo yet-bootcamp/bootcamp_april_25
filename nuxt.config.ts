@@ -9,6 +9,16 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/eslint',
   ],
+  colorMode: {
+    preference: 'dark'
+  },
+  ui: {
+    global: true,
+    icons: ['heroicons'],
+    primary: 'gray',
+    gray: 'zinc',
+    safelistColors: ['primary', 'gray']
+  },
   css: ['~/assets/css/main.css'],
   plugins: ['~/plugins/api.ts'],
   ssr: false,
@@ -26,7 +36,6 @@ export default defineNuxtConfig({
     dirs: [
       'scripts/**'
     ]
-  
   },
   vite: {
     server: {
@@ -36,7 +45,7 @@ export default defineNuxtConfig({
       }
     }
   },
-   pinia: {
+  pinia: {
     storesDirs: ['./stores/**'],
   },
 })

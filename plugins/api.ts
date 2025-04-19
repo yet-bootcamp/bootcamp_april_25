@@ -1,15 +1,15 @@
-import { useWebApp } from "vue-tg"
-import { getUserID } from "@/scripts/getUserID"
+// import { useWebApp } from "vue-tg"
+// import { getUserID } from "@/scripts/getUserID"
 
-interface ApiResponse<T = any> {
-    data: T
-    error: string | null
-}
+// interface ApiResponse<T = any> {
+//     data: T
+//     error: string | null
+// }
 
 
-export default defineNuxtPlugin((nuxtApp) => {
-    const { initDataUnsafe } = useWebApp()
-    const config = useRuntimeConfig()
+// export default defineNuxtPlugin((nuxtApp) => {
+//     const { initDataUnsafe } = useWebApp()
+//     const config = useRuntimeConfig()
 
     const api = {
         async get<T>(endpoint: string, options: RequestInit = {}) {
@@ -52,4 +52,4 @@ export default defineNuxtPlugin((nuxtApp) => {
             api
         }
     }
-})
+     })

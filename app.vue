@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 
-const {$api} = useNuxtApp()
+// const {$api} = useNuxtApp()
 
 const [errorPing, dataPing] = await useTryCatch($api.get('/ping').then((res) => res))
 if(dataPing) {
