@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen">
-    <EffectProgressiveBlur direction="top" :blur="20" :layers="7" class="fixed z-10 top-0 left-0 right-0 " :style="{ height: `${headerHeight*1.5}px` }" />
+    <EffectProgressiveBlur direction="top" :blur="20" :layers="7" class="fixed z-10 top-0 left-0 right-0 " :style="{ height: `${headerHeight}px` }" />
     <header ref="headerRef" class="flex items-center gap-4 w-full p-6 fixed left-1/2 -translate-x-1/2 top-0 z-20 max-w-2xl">
       <NuxtLink to="/" class="flex items-center">
         <img src="/assets/img/logo.png" width="59" height="34">

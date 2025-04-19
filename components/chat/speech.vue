@@ -42,12 +42,12 @@ watch(isListening, isListening => isListening ? null : selectedLanguage.value = 
 </script>
 
 <template>
-      <button v-if="!isListening" @click="start" class="flex items-center w-10 h-10 justify-center aspect-square bg-gray rounded-full">
-          <UIcon name="mdi:microphone-off" class="w-full h-1/3"></UIcon>
-        </button>
-        <button v-if="isListening" class="flex items-center w-10 h-10 justify-center aspect-square bg-green-darker rounded-full" @click="stop">
-          <UIcon name="mdi:microphone-outline" class="w-full h-1/3"></UIcon>
-      </button>
+      <UButton v-if="!isListening" @click="start" class="flex items-center w-12 h-12 justify-center aspect-square bg-gray-lighter rounded-full">
+          <UIcon name="mdi:microphone-off" class="bg-primary w-full h-1/2"></UIcon>
+        </UButton>
+        <UButton v-if="isListening" class="flex items-center w-12 h-12 justify-center aspect-square bg-green-darker rounded-full" @click="stop">
+          <UIcon name="mdi:microphone-outline" class="bg-primary w-full h-1/2"></UIcon>
+      </UButton>
         
 </template>
 
