@@ -14,15 +14,36 @@ interface ApiResponse<T = any> {
 
     const api = {
         async get<T>(endpoint: string, options: any = {}) {
-            return axios.get<T>(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`)
+            const response = await fetch(`${config.public.apiUrl}${endpoint}?id=${getUserID()}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                ...options
+            })
+            return response
         },
 
         async post<T>(endpoint: string, body: any) {
-            return axios.post<T>(`${config.public.apiUrl}${endpoint}`, body)
+            const response = await fetch(`${config.public.apiUrl}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+            return response
         },
 
         async patch<T>(endpoint: string, body: any) {
-            return axios.patch<T>(`${config.public.apiUrl}${endpoint}`, body)
+            const response = await fetch(`${config.public.apiUrl}${endpoint}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+            return response
         }
     }
 
