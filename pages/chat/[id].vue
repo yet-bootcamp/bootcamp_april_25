@@ -141,7 +141,7 @@ const handleSpeechResult = (result: string) => {
     <h1 class="text-2xl font-bold text-center">Чат-бот</h1>
     <ChatMessages :messages="messages" class="mb-24" />
     <EffectProgressiveBlur direction="bottom" :blur="10" :layers="10" class="fixed z-10 bottom-0 left-0 right-0 h-32" />
-    <UForm :schema="schema" :state="state" class="flex gap-2 flex-col z-20 fixed bottom-0 left-0 right-0 p-4" @submit.prevent="sendMessage(state.message)">
+    <UForm :schema="schema" :state="state" class="flex gap-2 flex-col z-20 fixed bottom-0 left-1/2 -translate-x-1/2 max-w-2xl w-full p-4" @submit.prevent="sendMessage(state.message)">
       <div class="flex gap-2">
         <UInput v-model="state.message" placeholder="Сообщение"  size="xl" class="w-full"/>
         <ChatSpeech class="aspect-square size-4 min-h-4 max-h-4 min-w-4 max-w-4" @result="handleSpeechResult" />
